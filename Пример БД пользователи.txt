@@ -1,7 +1,6 @@
-vasya.pupkin ; ahahalol ; N373 ; Василий Пупкин
-yasha.gus ; 123ght123 ; N371 ; Яша Гусь
-aboba123 ; SJDf3f7Fsk ; N370 ; Александр Третьяков
-mikhail.pavlovich ; aihpurreybn ; -1 ; Михаил Павлович
-hululuvupu ; adsjmkljvc ; -1 ; Никита Никитыч
-ioprterutb ; uiwdgilyjhnlw ; -1; Андрей Андреев
-^
+vasya.pupkin ahahalol N373 Василий Пупкин
+yasha.gus 123ght123 N371 Яша Гусь
+aboba123 ; SJDf3f7Fsk N370 Александр Третьяков
+mikhail.pavlovich aihpurreybn -1 Михаил Павлович
+hululuvupu adsjmkljvc -1 Никита Никитыч
+ioprterutb uiwdgilyjhnlw -1 Андрей Андреев
