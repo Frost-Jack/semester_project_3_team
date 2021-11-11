@@ -2,16 +2,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Пародия на PCMS</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
+<h1><%= "Логин система" %>
 </h1>
 <br/>
 
-<form method="post" action="fileuploadservlet" enctype="multipart/form-data">
-    <input type="file" name="file" />
-    <input type="submit" value="Upload" />
+<form action="servlet1" method="post">
+    Name:<input type="text" name="username"/><br/><br/>
+    Password:<input type="password" name="userpass"/><br/><br/>
+    <input type="submit" value="login"/>
 </form>
 
 </body>
