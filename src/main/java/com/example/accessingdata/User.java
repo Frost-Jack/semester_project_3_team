@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
 //Ну коммент появился.
+//И еще один.
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users_data",
 		uniqueConstraints = {@UniqueConstraint(columnNames = {"login"})}
