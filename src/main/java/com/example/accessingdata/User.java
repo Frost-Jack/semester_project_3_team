@@ -4,8 +4,6 @@ import javax.persistence.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
-//Ну коммент появился.
-//И еще один.
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users_data",
 		uniqueConstraints = {@UniqueConstraint(columnNames = {"login"})}
@@ -25,6 +23,10 @@ public class User {
 	private String firstName;
 
 	private String lastName;
+
+	private boolean session_status;
+
+	private String ip_session;
 
 	public Integer getId() {
 		return id;
@@ -85,6 +87,14 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
+	public String getIp_session() { return ip_session; }
+
+	public void setIp_session(String ip_session) { this.ip_session = ip_session; }
+
+	public boolean isSession_status() { return session_status; }
+
+	public void setSession_status(boolean session_status) { this.session_status = session_status; }
 
 	@Override
 	public String toString() {
