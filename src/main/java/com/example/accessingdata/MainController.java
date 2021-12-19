@@ -45,6 +45,67 @@ public class MainController {
 		return labRepository.findAll();
 	}
 
+	@GetMapping(path="/labs/group")
+	public @ResponseBody String getLabsByGroup(
+			@RequestParam String login,
+			@RequestParam String pass,
+			HttpServletRequest request
+	) {
+		List<User> users = userRepository.findByLogin(login);
+
+		User user = users.stream()
+				.filter(usr -> usr.getHashedPass(pass).equals(usr.getPass()))
+				.findFirst()
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with login=" + login));
+
+		String gr = user.getStat();
+		List<LabTerms> labs = labRepository.findByStat();
+		if(gr=="-1") {
+			for (LabTerms element : labs) {
+				return String.format("Lab%s: %s(%s) - max points:%s deadline:%s \n", element.getId(), element.getLab_name(), element.getSubj(), element.getMax_points(), element.getDeadline());
+			}
+		}
+		else{
+			for (LabTerms element : labs) {
+				if(element.getGroup_nums().contains(gr))
+					return String.format("Lab%s: %s(%s) - max points:%s deadline:%s \n", element.getId(), element.getLab_name(), element.getSubj(), element.getMax_points(), element.getDeadline());
+			}
+		}
+		return "\n";
+	}
+
+	@GetMapping(path="/labs/subj")
+	public @ResponseBody String getLabsByClass(
+			@RequestParam String login,
+			@RequestParam String pass,
+			HttpServletRequest request
+	) {
+		List<User> users = userRepository.findByLogin(login);
+
+		User user = users.stream()
+				.filter(usr -> usr.getHashedPass(pass).equals(usr.getPass()))
+				.findFirst()
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with login=" + login));
+
+		String gr = user.getStat();
+		List<LabTerms> labs = labRepository.findByStat();
+		if(gr=="-1") {
+			for (LabTerms element : labs) {
+				String sj = element.getSubj();
+				if(element.getSubj().contains(sj))
+					return String.format("Lab%s: %s(%s) - max points:%s deadline:%s \n", element.getId(), element.getLab_name(), element.getSubj(), element.getMax_points(), element.getDeadline());
+			}
+		}
+		else{
+			for (LabTerms element : labs) {
+				String sj = element.getSubj();
+				if(element.getGroup_nums().contains(gr) && element.getSubj().contains(sj))
+					return String.format("Lab%s: %s(%s) - max points:%s deadline:%s \n", element.getId(), element.getLab_name(), element.getSubj(), element.getMax_points(), element.getDeadline());
+			}
+		}
+		return "\n";
+	}
+
 	@PostMapping(path="/login")
 	public @ResponseBody String Sign_in(
 			@RequestParam String login,

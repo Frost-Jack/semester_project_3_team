@@ -4,5 +4,5 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface LabRepository extends CrudRepository<LabTerms, Integer> {
-
+    List<LabTerms> findByStat();
 }
