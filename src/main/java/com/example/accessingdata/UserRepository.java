@@ -1,6 +1,7 @@
 package com.example.accessingdata;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -9,4 +10,5 @@ import java.util.List;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
     List<User> findByLogin(String login);
+    List<User> findByIp(String ip);
 }

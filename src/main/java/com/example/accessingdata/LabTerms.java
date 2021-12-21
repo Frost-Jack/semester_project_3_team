@@ -78,4 +78,8 @@ public class LabTerms {
     public void setFile_source(String file_source) {
         this.file_source = file_source;
     }
+
+    public String toString() {
+        return lab_name + " " + deadline.toString() + " " + max_points.toString();
+    }
 }

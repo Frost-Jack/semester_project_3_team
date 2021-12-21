@@ -26,7 +26,7 @@ public class User {
 
 	private boolean session_status;
 
-	private String ip_session;
+	private String ip;
 
 	public Integer getId() {
 		return id;
@@ -88,9 +88,9 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public String getIp_session() { return ip_session; }
+	public String getIp() { return ip; }
 
-	public void setIp_session(String ip_session) { this.ip_session = ip_session; }
+	public void setIp(String ip_session) { this.ip = ip_session; }
 
 	public boolean isSession_status() { return session_status; }
 

@@ -40,9 +40,28 @@ public class MainController {
 		return "Saved";
 	}
 
-	@GetMapping(path="/all")
-	public @ResponseBody Iterable<LabTerms> getAllLabs() {
-		return labRepository.findAll();
+	@PostMapping(path="/all")
+	public @ResponseBody
+	StringBuffer getAllLabs(@RequestParam String subj, HttpServletRequest request) {
+		User user = userRepository.findByIp(request.getRemoteAddr()).stream().findFirst().orElseThrow(()
+				-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unregistered user"));
+		String group = user.getStat();
+		Iterable<LabTerms> all_labs = labRepository.findAll();
+		StringBuffer str = new StringBuffer();
+		str.append("+----------------------+----------------------+------------+\n");
+		str.append("|     Name of lab      |       Deadline       | Max points |\n");
+		str.append("+----------------------+----------------------+------------+\n");
+		String leftAlignFormat = "| %-20s | %-20d | %-10d |\n";
+		for (LabTerms term : all_labs) {
+			if (!term.getSubj().equals(subj)){
+				continue;
+			}else{
+				if (((term.getGroup_nums().contains(group)) || (group.equals("-1")))) {
+					str.append(String.format(leftAlignFormat, term.getLab_name(), term.getDeadline(), term.getMax_points()));
+				}
+			}
+			str.append("+----------------------+----------------------+------------+\n");}
+		return str;
 	}
 
 	@PostMapping(path="/login")
@@ -61,7 +80,7 @@ public class MainController {
 			return ("This user is already logged in");
 		} else {
 			user.setSession_status(true);
-			user.setIp_session(request.getRemoteAddr());
+			user.setIp(request.getRemoteAddr());
 			userRepository.save(user);
 			return String.format("Hello, %s %s %s", user.getFirstName(), user.getLastName(), request.getRemoteAddr());
 		}
@@ -80,7 +99,7 @@ public class MainController {
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with login=" + login));
 		if (user.isSession_status()) {
 			user.setSession_status(false);
-			user.setIp_session("0");
+			user.setIp("0");
 			userRepository.save(user);
 			return String.format("Bye, %s %s", user.getFirstName(), user.getLastName());
 		} else {
