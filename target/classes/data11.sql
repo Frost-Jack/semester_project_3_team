@@ -1,0 +1,1 @@
+insert into users_data(id, login, pass, stat, first_name, last_name) values(1,'hululuvupu','adsjmkljvc','-1', 'First', 'Last');
