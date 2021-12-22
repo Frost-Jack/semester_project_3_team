@@ -2,15 +2,18 @@ package com.example.accessingdata;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -48,21 +51,46 @@ public class MainController {
 		String group = user.getStat();
 		Iterable<LabTerms> all_labs = labRepository.findAll();
 		StringBuffer str = new StringBuffer();
-		str.append("+----------------------+----------------------+------------+\n");
-		str.append("|     Name of lab      |       Deadline       | Max points |\n");
-		str.append("+----------------------+----------------------+------------+\n");
-		String leftAlignFormat = "| %-20s | %-20d | %-10d |\n";
+		if (group.equals("-1")){
+			String leftAlignFormat = "| %-4d | %-20s | %-20d | %-10d | %-39s |\n";
+			str.append("+------+----------------------+----------------------+------------+-----------------------------------------+\n");
+			str.append("+  ID  |     Name of lab      |       Deadline       | Max points | Available groups                        |\n");
+			str.append("+------+----------------------+----------------------+------------+-----------------------------------------+\n");
+			for (LabTerms term : all_labs) {
+				if (!term.getSubj().equals(subj)){
+					continue;
+				}else{
+					String[] pupils = term.getGroup_nums().split("/");
+					str.append(String.format(leftAlignFormat, term.getId(), term.getLab_name(), term.getDeadline(), term.getMax_points(), Arrays.toString(Arrays.copyOfRange(pupils, 1, pupils.length))));
+				}
+				str.append("+------+----------------------+----------------------+------------+-----------------------------------------+\n");}
+		}else{
+			String leftAlignFormat = "| %-4d | %-20s | %-20d | %-10d |\n";
+		str.append("+------+----------------------+----------------------+------------+\n");
+		str.append("|  ID  |     Name of lab      |       Deadline       | Max points |\n");
+		str.append("+------+----------------------+----------------------+------------+\n");
 		for (LabTerms term : all_labs) {
 			if (!term.getSubj().equals(subj)){
 				continue;
 			}else{
-				if (((term.getGroup_nums().contains(group)) || (group.equals("-1")))) {
-					str.append(String.format(leftAlignFormat, term.getLab_name(), term.getDeadline(), term.getMax_points()));
+				if ((term.getGroup_nums().contains(group))) {
+					str.append(String.format(leftAlignFormat, term.getId(), term.getLab_name(), term.getDeadline(), term.getMax_points()));
 				}
 			}
-			str.append("+----------------------+----------------------+------------+\n");}
+			str.append("+------+----------------------+----------------------+------------+\n");
+		}}
 		return str;
 	}
+
+//	@PostMapping(path="/upload")
+//	public @ResponseBody String upload_file (
+//			@RequestParam MultipartFile file
+//	) {
+//		String uploadDir = "С:/upload/";
+//		File transferFile = new File(file.getOriginalFilename());
+//		return "Saved";
+//	}
+
 
 	@PostMapping(path="/login")
 	public @ResponseBody String Sign_in(
