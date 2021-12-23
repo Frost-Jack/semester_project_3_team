@@ -15,8 +15,7 @@
 	<description>Demo project for Github Actions</description>
 
 	<properties>
-		<java.version>11</java.version>
-  		<sonar.organization>garnetaki</sonar.organization>
+  		<sonar.organization>frost-jack</sonar.organization>
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
