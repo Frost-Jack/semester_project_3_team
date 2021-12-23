@@ -10,12 +10,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 mx-auto">
-                <h2>Upload File Example</h2>
+                <h2>Gimme ur files</h2>
                 <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
                 <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
-                    <input type="file" name="file" class="form-control-file">
-
-                    <input type="String" name="text" class="form-control-plaintext"><br>
+                    <div class="form-group">
+                        <input type="file" name="file" class="form-control-file">
+                    </div>
                     <button type="submit" class="btn btn-primary">Upload File</button>
                 </form>
             </div>
